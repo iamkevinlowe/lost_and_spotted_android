@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Lost and Spotted</string>
+    <string name="aws_s3_bucket">lost-and-spotted-dev</string>
+    <string name="aws_s3_key">AKIAIUPR75FTSXO5NQBA</string>
+    <string name="aws_s3_region">Oregon</string>
+    <string name="aws_s3_secret">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</string>
+
+    <string name="button_take_image">Take Photo</string>
+</resources>
