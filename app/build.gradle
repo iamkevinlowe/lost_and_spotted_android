@@ -26,6 +26,9 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
-    compile 'com.github.OneCodeLabs:S3UploadService:1.0.0@aar'
+    //noinspection GradleDynamicVersion
+    compile 'com.amazonaws:aws-android-sdk-core:2.2.+'
+    //noinspection GradleDynamicVersion
+    compile 'com.amazonaws:aws-android-sdk-s3:2.2.+'
     testCompile 'junit:junit:4.12'
 }
