@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
@@ -18,9 +17,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = "lost_and_spotted";
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private TransferUtility transferUtility;
@@ -48,7 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Bundle extras = data.getExtras();
             Bitmap bitmap = (Bitmap) extras.get("data");
 
-            sendToS3Bucket(bitmap);
+            String url = sendToS3Bucket(bitmap);
+
         }
     }
 
@@ -66,8 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void sendToS3Bucket(Bitmap bitmap) {
+    private String sendToS3Bucket(Bitmap bitmap) {
         try {
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US);
+            String key = "pets/images/" + dateFormatter.format(new Date()) + ".jpg";
+
             File file = new File(this.getCacheDir(), "image");
             file.createNewFile();
 
@@ -80,13 +85,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fos.flush();
             fos.close();
 
-            TransferObserver observer = transferUtility.upload(
-                    getString(R.string.aws_s3_bucket),     /* The bucket to upload to */
-                    "pets/image",    /* The key for the uploaded object */
-                    file        /* The file where the data to upload exists */
+            transferUtility.upload(
+                    getString(R.string.aws_s3_bucket),
+                    key,
+                    file
             );
+
+            return getString(R.string.aws_s3_base_url) + key;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
     }
 }

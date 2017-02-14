@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Lost and Spotted</string>
     <string name="aws_s3_bucket">lost-and-spotted-dev</string>
+    <string name="aws_s3_base_url">https://lost-and-spotted-dev.s3-us-west-2.amazonaws.com/</string>
 
     <string name="button_take_image">Take Photo</string>
 </resources>
