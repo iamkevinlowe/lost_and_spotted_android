@@ -7,7 +7,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-public class PostPetDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+import com.lostandspotted.models.Pet;
+
+public class PostPetDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+    Pet pet;
+
     Spinner spinnerPetType;
     Spinner spinnerPetSize;
     Spinner spinnerPetHairLength;
@@ -17,9 +21,13 @@ public class PostPetDetailsActivity extends AppCompatActivity implements Adapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_pet_details);
 
+        pet = (Pet) getIntent().getSerializableExtra("PET");
+
         initSpinner(R.id.spinner_pet_type);
         initSpinner(R.id.spinner_pet_size);
         initSpinner(R.id.spinner_pet_hair_length);
+
+        findViewById(R.id.button_submit).setOnClickListener(this);
     }
 
     public void initSpinner(int id) {
@@ -47,11 +55,25 @@ public class PostPetDetailsActivity extends AppCompatActivity implements Adapter
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(pos);
+        String value = parent.getItemAtPosition(pos).toString();
+
+        if (parent.getId() == R.id.spinner_pet_type) {
+            pet.setPetType(value);
+        } else if (parent.getId() == R.id.spinner_pet_size) {
+            pet.setSize(value);
+        } else if (parent.getId() == R.id.spinner_pet_hair_length) {
+            pet.setHairLength(value);
+        }
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.button_submit) {
+
+        }
     }
 }

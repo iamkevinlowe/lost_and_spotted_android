@@ -12,13 +12,17 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.lostandspotted.models.Image;
+import com.lostandspotted.models.Pet;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class PostPetImageActivity extends AppCompatActivity implements View.OnClickListener {
@@ -51,6 +55,17 @@ public class PostPetImageActivity extends AppCompatActivity implements View.OnCl
 
             String url = sendToS3Bucket(bitmap);
 
+            List<Image> images = new ArrayList<>();
+            Image image = new Image();
+            image.setUrl(url);
+            images.add(image);
+
+            Pet pet = new Pet();
+            pet.setImages(images);
+
+            Intent intent = new Intent(getBaseContext(), PostPetDetailsActivity.class);
+            intent.putExtra("PET", pet);
+            startActivity(intent);
         }
     }
 
