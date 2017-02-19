@@ -23,13 +23,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".PostPetDetailsActivity"></activity>
+        <activity android:name=".PostPetDetailsActivity" />
 
         <service
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
             android:enabled="true" />
 
+        <activity
+            android:name=".BrowsePetsActivity"
+            android:label="@string/title_activity_browse_pets"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
