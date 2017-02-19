@@ -3,8 +3,6 @@ package com.lostandspotted.models;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Comment implements Serializable {
 

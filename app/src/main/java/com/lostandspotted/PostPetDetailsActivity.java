@@ -2,7 +2,6 @@ package com.lostandspotted;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,7 +14,6 @@ import com.lostandspotted.models.Image;
 import com.lostandspotted.models.Pet;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -110,8 +108,7 @@ public class PostPetDetailsActivity extends AppCompatActivity implements Adapter
     }
 
     public void createPetImages(int petId, List<Image> images) {
-        for (Iterator<Image> i = images.iterator(); i.hasNext();) {
-            Image image = i.next();
+        for (Image image : images) {
             Call<Image> call = client.createImage(petId, image);
             call.enqueue(new Callback<Image>() {
                 @Override

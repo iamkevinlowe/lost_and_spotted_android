@@ -79,6 +79,7 @@ public class PostPetImageActivity extends AppCompatActivity implements View.OnCl
             String key = "pets/images/" + dateFormatter.format(new Date()) + ".jpg";
 
             File file = new File(this.getCacheDir(), "image");
+            //noinspection ResultOfMethodCallIgnored
             file.createNewFile();
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
