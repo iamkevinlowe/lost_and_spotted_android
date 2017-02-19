@@ -1,7 +1,26 @@
 <resources>
     <string name="app_name">Lost and Spotted</string>
+
+    <!-- PostPetImageActivity -->
     <string name="aws_s3_bucket">lost-and-spotted-dev</string>
     <string name="aws_s3_base_url">https://lost-and-spotted-dev.s3-us-west-2.amazonaws.com/</string>
 
     <string name="button_take_image">Take Photo</string>
+
+    <!-- PostPetDetailsActiivty -->
+    <string-array name="pet_type_array">
+        <item>Cat</item>
+        <item>Dog</item>
+    </string-array>
+    <string-array name="pet_size_array">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
+    <string-array name="pet_hair_length">
+        <item>Short</item>
+        <item>Long</item>
+    </string-array>
+    <string name="button_submit">Submit</string>
+
 </resources>

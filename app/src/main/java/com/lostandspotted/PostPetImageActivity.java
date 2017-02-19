@@ -12,6 +12,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.lostandspotted.models.Image;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -21,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class PostPetImageActivity extends AppCompatActivity implements View.OnClickListener {
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private TransferUtility transferUtility;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_post_pet_image);
 
         findViewById(R.id.button_take_image).setOnClickListener(this);
 
@@ -50,7 +51,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Bitmap bitmap = (Bitmap) extras.get("data");
 
             String url = sendToS3Bucket(bitmap);
+            Image image = new Image(url);
 
+            Intent intent = new Intent(getBaseContext(), PostPetDetailsActivity.class);
+            intent.putExtra("IMAGE", image);
+            startActivity(intent);
         }
     }
 
@@ -74,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String key = "pets/images/" + dateFormatter.format(new Date()) + ".jpg";
 
             File file = new File(this.getCacheDir(), "image");
+            //noinspection ResultOfMethodCallIgnored
             file.createNewFile();
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
