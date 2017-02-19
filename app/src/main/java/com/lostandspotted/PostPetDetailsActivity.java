@@ -2,15 +2,31 @@ package com.lostandspotted;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.lostandspotted.api.LostAndSpottedService;
+import com.lostandspotted.api.PetRequest;
+import com.lostandspotted.models.Image;
 import com.lostandspotted.models.Pet;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class PostPetDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+    List<Image> images;
     Pet pet;
+
+    LostAndSpottedService.Client client;
 
     Spinner spinnerPetType;
     Spinner spinnerPetSize;
@@ -21,7 +37,15 @@ public class PostPetDetailsActivity extends AppCompatActivity implements Adapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_pet_details);
 
-        pet = (Pet) getIntent().getSerializableExtra("PET");
+        pet = new Pet();
+        images = new ArrayList<>();
+        Image image = (Image) getIntent().getSerializableExtra("IMAGE");
+
+        if (image != null) {
+            images.add(image);
+        }
+
+        client = LostAndSpottedService.getClient();
 
         initSpinner(R.id.spinner_pet_type);
         initSpinner(R.id.spinner_pet_size);
@@ -70,10 +94,52 @@ public class PostPetDetailsActivity extends AppCompatActivity implements Adapter
         // Another interface callback
     }
 
+    public void createPet(Pet pet) {
+        Call<Pet> call = client.createPet(new PetRequest(pet));
+        call.enqueue(new Callback<Pet>() {
+            @Override
+            public void onResponse(Call<Pet> call, Response<Pet> response) {
+                updatePet(response.body());
+                createPetImages(response.body().getId(), images);
+            }
+
+            @Override
+            public void onFailure(Call<Pet> call, Throwable t) {
+                Toast.makeText(PostPetDetailsActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void updatePet(Pet pet) {
+        this.pet = pet;
+    }
+
+    public void createPetImages(int petId, List<Image> images) {
+        for (Iterator<Image> i = images.iterator(); i.hasNext();) {
+            Image image = i.next();
+            Call<Image> call = client.createImage(petId, image);
+            call.enqueue(new Callback<Image>() {
+                @Override
+                public void onResponse(Call<Image> call, Response<Image> response) {
+                    updatePetImage(response.body());
+                }
+
+                @Override
+                public void onFailure(Call<Image> call, Throwable t) {
+                    Toast.makeText(PostPetDetailsActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    public void updatePetImage(Image image) {
+        pet.setImage(image);
+    }
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.button_submit) {
-
+            createPet(pet);
         }
     }
 }

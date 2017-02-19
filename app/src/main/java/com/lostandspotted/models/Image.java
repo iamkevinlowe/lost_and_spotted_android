@@ -1,12 +1,35 @@
 package com.lostandspotted.models;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.google.gson.annotations.SerializedName;
 
-public class Image {
+import java.io.Serializable;
 
+public class Image implements Serializable {
+
+    private int id;
+    @SerializedName("pet_id")
+    private int petId;
     private String url;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    public Image(String url) {
+        this.url = url;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getPetId() {
+        return petId;
+    }
+
+    public void setPetId(int petId) {
+        this.petId = petId;
+    }
 
     public String getUrl() {
         return url;
@@ -15,13 +38,4 @@ public class Image {
     public void setUrl(String url) {
         this.url = url;
     }
-
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
 }

@@ -1,23 +1,24 @@
 package com.lostandspotted.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Pet implements Serializable {
 
     private int id;
     private String color;
     private boolean found;
+    @SerializedName("hair_length")
     private String hairLength;
     private boolean licensed;
     private Object note;
+    @SerializedName("pet_type")
     private String petType;
     private String size;
     private List<Comment> comments = null;
     private List<Image> images = null;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public int getId() {
         return id;
@@ -44,11 +45,11 @@ public class Pet implements Serializable {
     }
 
     public String getHairLength() {
-        return hairLength;
+        return hairLength.substring(0, 1).toUpperCase() + hairLength.substring(1);
     }
 
     public void setHairLength(String hairLength) {
-        this.hairLength = hairLength;
+        this.hairLength = hairLength.toLowerCase();
     }
 
     public boolean isLicensed() {
@@ -68,19 +69,19 @@ public class Pet implements Serializable {
     }
 
     public String getPetType() {
-        return petType;
+        return petType.substring(0, 1).toUpperCase() + petType.substring(1);
     }
 
     public void setPetType(String petType) {
-        this.petType = petType;
+        this.petType = petType.toLowerCase();
     }
 
     public String getSize() {
-        return size;
+        return size.substring(0, 1).toUpperCase() + size.substring(1);
     }
 
     public void setSize(String size) {
-        this.size = size;
+        this.size = size.toLowerCase();
     }
 
     public List<Comment> getComments() {
@@ -99,12 +100,7 @@ public class Pet implements Serializable {
         this.images = images;
     }
 
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    public void setImage(Image image) {
+        this.images.add(image);
     }
-
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
 }
