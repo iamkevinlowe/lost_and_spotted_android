@@ -1,5 +1,6 @@
 package com.lostandspotted;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -114,6 +115,9 @@ public class PostPetDetailsActivity extends AppCompatActivity implements Adapter
                 @Override
                 public void onResponse(Call<Image> call, Response<Image> response) {
                     updatePetImage(response.body());
+
+                    Intent intent = new Intent(PostPetDetailsActivity.this, BrowsePetsActivity.class);
+                    startActivity(intent);
                 }
 
                 @Override

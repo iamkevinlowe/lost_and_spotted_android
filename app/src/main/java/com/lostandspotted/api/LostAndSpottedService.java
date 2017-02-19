@@ -17,6 +17,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public class LostAndSpottedService {
 //    private final static String BASE_API_URL = "https://lost-and-spotted.herokuapp.com/api/";
@@ -44,7 +45,7 @@ public class LostAndSpottedService {
         /* === Pets === */
         // Index
         @GET("pets")
-        Call<List<Pet>> getPets();
+        Call<List<Pet>> getPets(@Query("page") int page);
 
         // Show
         @GET("pets/{id}")
